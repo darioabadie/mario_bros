@@ -1,41 +1,142 @@
-# Mario Bros - Pyxel Game
+# 🍄 Mario Bros Game - Pyxel
 
-Un juego de Mario Bros desarrollado en Python usando el motor de juegos Pyxel. Este proyecto está diseñado para ser escalable, fácil de entender y mantener.
+Un juego estilo Mario Bros clásico desarrollado en Python usando Pyxel, creado con fines educativos para aprender desarrollo de videojuegos.
 
-## 🚀 Características
+## 🎮 Características Actuales
 
-- **Movimiento fluido** de Mario con física realista
-- **Sistema de cámara** que sigue al jugador
-- **Arquitectura modular** para fácil expansión
-- **Sistema de física** robusto para colisiones y gravedad
-- **Debug mode** para desarrollo y testing
+- ✅ **Personaje Mario**: Movimiento, salto y animaciones
+- ✅ **Enemigo Goomba**: IA básica, colisiones y mecánica de pisar
+- ✅ **Sistema de Física**: Gravedad, colisiones AABB
+- ✅ **Cámara**: Seguimiento suave de Mario
+- ✅ **Sprites**: Sistema modular con pixel art 16x16
+- ✅ **Controles**: Teclado (flechas, WASD, espacio)
+- ✅ **UI**: Puntuación y modo debug (F1)
+- ✅ **Changelog**: Sistema automatizado de documentación
 
 ## 🎮 Controles
 
 - **Flechas izquierda/derecha** o **A/D**: Mover Mario
 - **Espacio** o **W/Flecha arriba**: Saltar
 - **Z/X**: Correr (aumenta la velocidad)
-- **P**: Pausar/Despausar
-- **R**: Reiniciar nivel (para testing)
 - **F1**: Toggle debug info
 - **Q/Escape**: Salir del juego
 
-## 📁 Estructura del Proyecto
+## 🏗️ Arquitectura del Proyecto
 
 ```
 mario_game/
 ├── main.py                 # Punto de entrada del juego
 ├── requirements.txt        # Dependencias del proyecto
-├── assets/                 # Recursos del juego (sprites, música, sonidos)
-│   ├── music/
-│   ├── sounds/
-│   └── sprites/
-├── config/                 # Configuraciones del juego
+├── CHANGELOG.md           # Historial de cambios
+├── config/                 # Configuración del juego
 │   ├── __init__.py
-│   └── settings.py         # Configuraciones principales
-├── core/                   # Sistemas centrales del juego
+│   └── settings.py        # Configuraciones centralizadas
+├── entities/              # Personajes y objetos del juego
 │   ├── __init__.py
-│   └── camera.py           # Sistema de cámara
+│   ├── base.py           # Clase base Entity
+│   ├── player.py         # Clase Mario
+│   ├── enemies/          # Enemigos
+│   │   ├── __init__.py
+│   │   ├── base.py       # Clase base Enemy
+│   │   └── goomba.py     # Enemigo Goomba
+│   ├── collectibles/     # Items coleccionables (futuro)
+│   └── platforms/        # Plataformas (futuro)
+├── physics/              # Motor de física
+│   ├── __init__.py
+│   └── engine.py         # PhysicsEngine y CollisionDetector
+├── core/                 # Sistemas principales
+│   ├── __init__.py
+│   └── camera.py         # Sistema de cámara
+├── scenes/               # Escenas del juego
+│   ├── __init__.py
+│   └── game_scene.py     # Escena principal
+├── assets/               # Recursos del juego
+│   └── sprites/          # Sistema de sprites modular
+│       ├── __init__.py
+│       ├── base.py       # Clase base para sprites
+│       ├── manager.py    # Gestor principal de sprites
+│       ├── mario_sprites.py   # Sprites de Mario
+│       └── goomba_sprites.py  # Sprites de Goomba
+├── tools/                # Herramientas de desarrollo
+│   ├── changelog.py      # Gestión de changelog
+│   └── install-hooks.sh  # Instalación de git hooks
+└── docs/                 # Documentación
+    └── CHANGELOG_GUIDE.md # Guía del sistema de changelog
+```
+
+## 🚀 Instalación y Ejecución
+
+### Prerrequisitos
+- Python 3.8 o superior
+- pip (gestor de paquetes de Python)
+
+### Instalación
+```bash
+# Clonar el repositorio
+git clone https://github.com/darioabadie/mario_bros.git
+cd mario_bros
+
+# Crear entorno virtual (recomendado)
+python -m venv .venv
+source .venv/bin/activate  # En Windows: .venv\Scripts\activate
+
+# Instalar dependencias
+pip install -r requirements.txt
+```
+
+### Ejecutar el Juego
+```bash
+python main.py
+```
+
+## 🛠️ Desarrollo
+
+### Sistema de Changelog
+
+Este proyecto utiliza un sistema automatizado de changelog:
+
+```bash
+# Agregar un cambio
+python tools/changelog.py add Added "Nueva funcionalidad"
+
+# Ver cambios pendientes
+python tools/changelog.py show
+
+# Crear release
+python tools/changelog.py release 0.3.0
+
+# Instalar git hooks (verificación automática)
+./tools/install-hooks.sh
+```
+
+Ver [guía completa del changelog](docs/CHANGELOG_GUIDE.md) para más detalles.
+
+### Contribuir
+
+1. **Fork** el proyecto
+2. **Crea** una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. **Documenta** tus cambios en el changelog (`python tools/changelog.py add Added "..."`)
+4. **Commit** tus cambios (`git commit -m 'feat: agregar nueva funcionalidad'`)
+5. **Push** a la rama (`git push origin feature/nueva-funcionalidad`)
+6. **Abre** un Pull Request
+
+### Estándares de Código
+
+- **Python**: Seguir PEP 8
+- **Commits**: Usar [Conventional Commits](https://www.conventionalcommits.org/)
+- **Documentación**: Docstrings en español para funciones y clases
+- **Changelog**: Documentar todos los cambios antes del commit
+
+## 🎨 Sistema de Sprites
+
+El juego utiliza un sistema modular de sprites con:
+
+- **Carga Lazy**: Sprites se cargan solo cuando se necesitan
+- **Cache Inteligente**: Evita redibujar sprites ya cargados
+- **Organización por Entidad**: Cada personaje tiene su módulo de sprites
+- **Pixel Art 16x16**: Estilo retro clásico
+
+Ver [documentación completa](assets/sprites/README.md) del sistema de sprites.
 ├── entities/               # Todas las entidades del juego
 │   ├── __init__.py
 │   ├── base.py             # Clase base para entidades
@@ -170,12 +271,51 @@ Este proyecto está diseñado para ser educativo y fácil de extender. Algunas �
 4. **Gráficos**: Crear sprites y animaciones
 5. **Características**: Nuevas mecánicas de gameplay
 
+## 🎯 Roadmap
+
+### Version 0.3.0 (Próxima)
+- [ ] Sistema de items y power-ups
+- [ ] Enemigo Koopa Troopa  
+- [ ] Sistema de niveles/mapas
+- [ ] Mejoras en audio
+
+### Version 0.4.0
+- [ ] Sistema de vidas y game over
+- [ ] Menú principal
+- [ ] Sistema de guardado
+- [ ] Múltiples niveles
+
+### Version 1.0.0 (Objetivo Final)  
+- [ ] Juego completo estilo Mario Bros clásico
+- [ ] Sistema de audio completo
+- [ ] Múltiples mundos
+- [ ] Sistema de power-ups completo
+
 ## 📚 Recursos de Aprendizaje
 
+Este proyecto está diseñado como herramienta educativa. Conceptos cubiertos:
+
+- **Programación Orientada a Objetos**: Herencia, polimorfismo, encapsulación
+- **Patrones de Diseño**: Entity-Component, Singleton, Observer  
+- **Arquitectura de Software**: Separación de responsabilidades, módulos
+- **Desarrollo de Juegos**: Game loop, física, colisiones, sprites
+- **Herramientas de Desarrollo**: Git hooks, changelog, testing
+
+**Recursos adicionales:**
 - [Documentación de Pyxel](https://github.com/kitao/pyxel)
 - [Tutoriales de desarrollo de juegos](https://realpython.com/pygame-a-primer/)
 - [Patrones de diseño en juegos](https://gameprogrammingpatterns.com/)
 
+## 🤝 Contacto
+
+- **Autor**: Dario Abadie
+- **GitHub**: [@darioabadie](https://github.com/darioabadie)
+- **Proyecto**: [mario_bros](https://github.com/darioabadie/mario_bros)
+
 ## 📄 Licencia
 
 Este proyecto es de código abierto y está disponible bajo la licencia MIT.
+
+---
+
+¡Diviértete desarrollando y jugando! 🎮✨
